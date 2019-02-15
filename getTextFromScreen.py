@@ -1,60 +1,28 @@
 from pynput.keyboard import Listener as KeyboardListener
-from pynput.mouse import Listener as MouseListener
-from pynput.mouse import Button as MouseButton
 from settings import program_settings
-# import pyscreenshot
+from areaScreenshoter import screenshoter_window
+from PIL import Image
+import pyscreenshot as ImageGrab
 
 
-def on_mouse_click(x, y, button, pressed):
-    global press_coordinates
-    global release_coordinates
+def get_text_from_screen():
 
-    # If button were pressed
-    if button == MouseButton.left:
-        if pressed:
-            print("Left button pressed")
-            press_coordinates = {'detected': True, 'button': button, 'event': 'pressed', 'x': x, 'y': y}
-        # If button were released
-        else:
-            print("Left button released")
-            release_coordinates = {'detected': True, 'button': button, 'event': 'released', 'x': x, 'y': y}
-            # Stop listening
-            return False
-    # Cancel snapping if mouse right button clicked
-    elif button == MouseButton.right:
-        print("Right button pressed")
-        press_coordinates = {'detected': False}
-        release_coordinates = {'detected': False}
-        # Stop listening
-        return False
+    # Take screenshot of current display
+    display_screenshot = ImageGrab.grab()
 
+    # Print it fullscreen
+    screenshoter_window.create_window(display_screenshot)
 
-press_coordinates = {}
-release_coordinates = {}
+    screenshoter_window.select_area()
 
-
-def take_screenshot():
-    # screenshot = pyscreenshot.grab()
-
-    print("Mouse listener attached")
-    with MouseListener(
-            on_click=on_mouse_click) as listener:
-        listener.join()
-
-        # if snapping has not been cancelled
-        if press_coordinates['detected'] and release_coordinates['detected']:
-            try:
-                print("Press: ", press_coordinates['x'], press_coordinates['y'])
-                print("Release: ", release_coordinates['x'], release_coordinates['y'])
-            except:
-                pass
+    screenshoter_window.take_screenshot_of_area()
 
 
 def on_keyboard_press(key):
     print(str(key), " : ", program_settings.capture_action_key)
     if str(key) == program_settings.capture_action_key:
         print(key, " pressed")
-        take_screenshot()
+        get_text_from_screen()
 
 
 def attach_listener():

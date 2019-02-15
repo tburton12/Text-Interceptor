@@ -1,9 +1,11 @@
 from getTextFromScreen import attach_listener
 import trayIcon
 from threading import Thread
+from multiprocessing import freeze_support
 
 
-def main():
+if __name__ == '__main__':
+    freeze_support()
 
     # Create program handler
     listener = Thread(target=attach_listener)
@@ -13,6 +15,3 @@ def main():
     # Create tray icon
     icon = trayIcon.TrayIcon(title='Text capture')
     icon.run_icon()
-
-
-main()
