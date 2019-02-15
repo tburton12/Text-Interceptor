@@ -11,10 +11,9 @@ else:
 
 
 class AreaScreenshoter:
-
     def create_window(self, img):
+        # Create window root
         root = Tk()
-
         w = Label(root)
         root.overrideredirect(True)
         root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
@@ -27,14 +26,17 @@ class AreaScreenshoter:
         photo = ImageTk.PhotoImage(img)
         cv = Canvas()
         cv.pack(side='top', fill='both', expand='yes')
-        cv.create_image(10, 10, image=photo, anchor='nw')
+        cv.create_image(10,  10, image=photo, anchor='nw')
 
         w.pack()
 
         root.mainloop()
-        # self.window_thread = Thread(target=root.mainloop) # Infinity loop in thread, don't do that
-        # self.window_thread.setDaemon(True)
-        # self.window_thread.start()
+
+    def open_window(self):
+        pass
+
+    def close_window(self):
+        pass
 
     # Attaches a mouse listener to get select area and returns coordinates
     def select_area(self):
@@ -65,7 +67,7 @@ class AreaScreenshoter:
         release_coordinates = {}
 
         # Selected area coordinates getter
-        print("Mouse listener attached")
+        print("Selecting area")
         with MouseListener(
                 on_click=on_mouse_click) as listener:
             listener.join()
@@ -79,14 +81,12 @@ class AreaScreenshoter:
             try:
                 print("Press: ", press_coordinates['x'], press_coordinates['y'])
                 print("Release: ", release_coordinates['x'], release_coordinates['y'])
-            except:
-                pass
+            except Exception as ex:
+                print(ex)
 
     def take_screenshot_of_area(self):
         # Take screenshot of area
-        pass
-
-    def close_window(self):
+        print("Taking screenshot")
         pass
 
     def __init__(self):
@@ -95,7 +95,6 @@ class AreaScreenshoter:
         # Coordinates of mouse press and release. It stands for coordinates of selected rectange area.
         self.press_coordinates = {}
         self.release_coordinates = {}
-        self.window_thread = Thread()
 
 
 screenshoter_window = AreaScreenshoter()

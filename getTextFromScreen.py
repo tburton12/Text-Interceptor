@@ -3,19 +3,29 @@ from settings import program_settings
 from areaScreenshoter import screenshoter_window
 from PIL import Image
 import pyscreenshot as ImageGrab
+from multiprocessing import Process
 
 
 def get_text_from_screen():
 
     # Take screenshot of current display
     display_screenshot = ImageGrab.grab()
+    display_screenshot.save('full_screenshot.png')
+
+    def say_hello(name):
+        print("Hello", name)
 
     # Print it fullscreen
-    screenshoter_window.create_window(display_screenshot)
+    p = Process(target=screenshoter_window.create_window, args=(display_screenshot,))
+    p.daemon = True
+    p.start()
 
     screenshoter_window.select_area()
 
     screenshoter_window.take_screenshot_of_area()
+
+    # screenshoter_window.close_window()
+    p.terminate()
 
 
 def on_keyboard_press(key):
