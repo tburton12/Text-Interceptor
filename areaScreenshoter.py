@@ -1,8 +1,9 @@
 import sys
+import pyscreenshot as ImageGrab
 from PIL import Image, ImageTk
 from pynput.mouse import Listener as MouseListener
 from pynput.mouse import Button as MouseButton
-from threading import Thread
+from multiprocessing import Process
 
 if sys.version_info[0] == 2:  # Just checking your Python version to import Tkinter properly.
     from Tkinter import *
@@ -10,8 +11,11 @@ else:
     from tkinter import *
 
 
+# TODO: fix right click on opened window
+
 class AreaScreenshoter:
-    def create_window(self, img):
+    @staticmethod
+    def run_window(img):
         # Create window root
         root = Tk()
         w = Label(root)
@@ -29,13 +33,17 @@ class AreaScreenshoter:
         cv.create_image(10,  10, image=photo, anchor='nw')
 
         w.pack()
-
         root.mainloop()
 
-    def open_window(self):
+    def open_window(self, background_image):
+        self.window_process = Process(target=self.run_window, args=(background_image,))
+        self.window_process.daemon = True
+        self.window_process.start()
+
         pass
 
     def close_window(self):
+        self.window_process.terminate()
         pass
 
     # Attaches a mouse listener to get select area and returns coordinates
@@ -86,7 +94,11 @@ class AreaScreenshoter:
 
     def take_screenshot_of_area(self):
         # Take screenshot of area
-        print("Taking screenshot")
+        x1, y1 = self.press_coordinates['x'], self.press_coordinates['y']
+        x2, y2 = self.release_coordinates['x'], self.release_coordinates['y']
+        print("Taking screenshot of: ", x1, y1, x2, y2)
+        selected_area_screenshot = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+        selected_area_screenshot.save("selected_area.png")
         pass
 
     def __init__(self):
@@ -95,6 +107,8 @@ class AreaScreenshoter:
         # Coordinates of mouse press and release. It stands for coordinates of selected rectange area.
         self.press_coordinates = {}
         self.release_coordinates = {}
+
+        self.window_process = Process()
 
 
 screenshoter_window = AreaScreenshoter()
