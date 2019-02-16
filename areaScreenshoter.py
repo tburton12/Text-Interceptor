@@ -12,6 +12,7 @@ else:
 
 
 # TODO: fix right click on opened window
+# TODO: Escape shot close listener as well
 
 class AreaScreenshoter:
     @staticmethod
@@ -30,7 +31,7 @@ class AreaScreenshoter:
         photo = ImageTk.PhotoImage(img)
         cv = Canvas()
         cv.pack(side='top', fill='both', expand='yes')
-        cv.create_image(10,  10, image=photo, anchor='nw')
+        cv.create_image(1,  1, image=photo, anchor='nw')
 
         w.pack()
         root.mainloop()

@@ -2,6 +2,12 @@ from pynput.keyboard import Listener as KeyboardListener
 from settings import program_settings
 from areaScreenshoter import screenshoter_window
 from PIL import Image
+
+# Prevent from incorrect cropping of screenshots on high-DPI displays.
+# It has to be called before pyscreenhot is imported
+from ctypes import windll
+user32 = windll.user32
+user32.SetProcessDPIAware()
 import pyscreenshot as ImageGrab
 
 
