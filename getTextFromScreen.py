@@ -18,7 +18,6 @@ def copy_text_from_screen():
 
     # Take screenshot of current display
     display_screenshot = ImageGrab.grab()
-    display_screenshot.save('full_screenshot.png')
 
     # Create and open window which print screenshot on fullscreen
     screenshoter_window.open_window(display_screenshot)

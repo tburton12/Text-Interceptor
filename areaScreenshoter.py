@@ -104,7 +104,6 @@ class AreaScreenshoter:
             print("Taking screenshot of: ", x1, y1, x2, y2)
             try:
                 selected_area_screenshot = ImageGrab.grab(bbox=(x1, y1, x2, y2))
-                selected_area_screenshot.save("selected_area.png")
             except Exception as ex:
                 print(ex)
         else:
