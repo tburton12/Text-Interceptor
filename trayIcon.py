@@ -28,7 +28,7 @@ class TrayIcon:
         self.icon.run()
         self.running = True
 
-    def __init__(self, title='Python', image=None):
+    def __init__(self, title='Python'):
         self.running = False
         self.visible = False
 
@@ -36,18 +36,23 @@ class TrayIcon:
         self.icon = pystray.Icon(name=title, icon=title, title=title)
 
         # Use provided image as icon or generate default one
+        try:
+            image = Image.open('icon.ico')
+        except IOError:
+            print("Could not find icon file")
+
         if image is not None:
             try:
                 self.icon.icon = image
             except Exception as e:
                 print(e)
-                self.icon.icon = image
+                self.icon.icon = generate_icon()
         else:
             self.icon.icon = generate_icon()
 
         # Add entries to 'right click' menu
         self.icon.menu = pystray.Menu(pystray.MenuItem(text=program_settings.names['Program name'], action=lambda: None, default=True),
-                                      pystray.MenuItem(text="Open", action=lambda: self.open_settings()),
+                                      pystray.MenuItem(text="Settings", action=lambda: self.open_settings()),
                                       pystray.MenuItem(text="Capture text", action=lambda: self.capture_text()),
                                       pystray.MenuItem(text="Exit", action=lambda: self.exit_program()))
 
