@@ -19,6 +19,8 @@ class Settings:
             config_file.close()
 
     def __init__(self):
+        self.names = {'Program name': 'Text interceptor'}
+
         # Generate conf file if it is not existing
         if os.path.isfile("conf.ini") is not True:
             self.__generate_config_file()

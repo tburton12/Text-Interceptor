@@ -14,7 +14,7 @@ import pyscreenshot as ImageGrab
 import pyperclip
 
 
-def get_text_from_screen():
+def copy_text_from_screen():
 
     # Take screenshot of current display
     display_screenshot = ImageGrab.grab()
@@ -29,18 +29,17 @@ def get_text_from_screen():
 
     screenshoter_window.close_window()
 
-    detected_text = pytesseract.image_to_string(area_screenshot, lang='eng+pol')
+    detected_text = pytesseract.image_to_string(area_screenshot)
     print("Detected text: ", detected_text)
 
-    return detected_text
+    pyperclip.copy(detected_text)
 
 
 def on_keyboard_press(key):
     print(str(key), " : ", program_settings.capture_action_key)
     if str(key) == program_settings.capture_action_key:
         print(key, " pressed")
-        detected_text = get_text_from_screen()
-        pyperclip.copy(detected_text)
+        copy_text_from_screen()
 
 
 def attach_listener():
