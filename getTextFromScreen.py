@@ -1,7 +1,6 @@
 from pynput.keyboard import Listener as KeyboardListener
 from settings import program_settings
 from areaScreenshoter import screenshoter_window
-from PIL import Image
 import pytesseract
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
 
@@ -24,7 +23,9 @@ def copy_text_from_screen():
 
     screenshoter_window.select_area()
 
-    area_screenshot = screenshoter_window.take_screenshot_of_area()
+    area_screenshot = None
+    if screenshoter_window.is_window_opened():
+        area_screenshot = screenshoter_window.take_screenshot_of_area()
 
     screenshoter_window.close_window()
 

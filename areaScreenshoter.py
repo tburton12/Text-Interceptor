@@ -1,6 +1,6 @@
 import sys
 import pyscreenshot as ImageGrab
-from PIL import Image, ImageTk
+from PIL import ImageTk
 from pynput.mouse import Listener as MouseListener
 from pynput.mouse import Button as MouseButton
 from multiprocessing import Process
@@ -9,9 +9,6 @@ if sys.version_info[0] == 2:  # Just checking your Python version to import Tkin
     from Tkinter import *
 else:
     from tkinter import *
-
-
-# TODO: Closing listener with Escape key # done, not tested. window has to be focused on initialization to test it
 
 class AreaScreenshoter:
     @staticmethod
@@ -40,11 +37,12 @@ class AreaScreenshoter:
         self.window_process.daemon = True
         self.window_process.start()
 
-        pass
-
     def close_window(self):
-        self.window_process.terminate()
-        pass
+        if self.window_process.is_alive():
+            self.window_process.terminate()
+
+    def is_window_opened(self):
+        return self.window_process.is_alive()
 
     # Attaches a mouse listener to get select area and returns coordinates
     def select_area(self):

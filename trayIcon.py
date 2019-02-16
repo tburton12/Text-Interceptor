@@ -3,8 +3,10 @@ from PIL import Image, ImageDraw
 from getTextFromScreen import copy_text_from_screen
 from settings import program_settings
 
+
 class TrayIcon:
-    def capture_text(self):
+    @staticmethod
+    def capture_text():
         print("Capture text")
         copy_text_from_screen()
         pass
