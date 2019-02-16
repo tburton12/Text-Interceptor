@@ -28,10 +28,10 @@ def copy_text_from_screen():
 
     screenshoter_window.close_window()
 
-    detected_text = pytesseract.image_to_string(area_screenshot)
-    print("Detected text: ", detected_text)
-
-    pyperclip.copy(detected_text)
+    if area_screenshot is not None:
+        detected_text = pytesseract.image_to_string(area_screenshot)
+        print("Detected text: ", detected_text)
+        pyperclip.copy(detected_text)
 
 
 def on_keyboard_press(key):

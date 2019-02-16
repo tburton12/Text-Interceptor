@@ -40,6 +40,7 @@ class TrayIcon:
             image = Image.open('icon.ico')
         except IOError:
             print("Could not find icon file")
+            image = None
 
         if image is not None:
             try:
