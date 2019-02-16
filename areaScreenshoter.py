@@ -12,6 +12,7 @@ else:
 
 
 # TODO: Closing listener with Escape key # done, not tested. window has to be focused on initialization to test it
+# TODO: Support selecting area from right to left
 
 class AreaScreenshoter:
     @staticmethod
@@ -95,6 +96,8 @@ class AreaScreenshoter:
 
     def take_screenshot_of_area(self):
         # Take screenshot of area
+        selected_area_screenshot = None
+
         if self.press_coordinates['detected'] and self.release_coordinates['detected']:
             x1, y1 = self.press_coordinates['x'], self.press_coordinates['y']
             x2, y2 = self.release_coordinates['x'], self.release_coordinates['y']
@@ -106,6 +109,8 @@ class AreaScreenshoter:
                 print(ex)
         else:
             print("Cannot take a screenshot without coordinates")
+
+        return selected_area_screenshot
 
     def __init__(self):
         # Create window
