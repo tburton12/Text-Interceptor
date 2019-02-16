@@ -3,12 +3,7 @@ from PIL import Image, ImageDraw
 from getTextFromScreen import copy_text_from_screen
 from settings import program_settings
 
-
 class TrayIcon:
-    def open_settings(self):
-        print("Open settings")
-        pass
-
     def capture_text(self):
         print("Capture text")
         copy_text_from_screen()
@@ -53,7 +48,6 @@ class TrayIcon:
 
         # Add entries to 'right click' menu
         self.icon.menu = pystray.Menu(pystray.MenuItem(text=program_settings.names['Program name'], action=lambda: None, default=True),
-                                      pystray.MenuItem(text="Settings", action=lambda: self.open_settings()),
                                       pystray.MenuItem(text="Capture text", action=lambda: self.capture_text()),
                                       pystray.MenuItem(text="Exit", action=lambda: self.exit_program()))
 

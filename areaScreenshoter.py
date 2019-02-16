@@ -12,7 +12,6 @@ else:
 
 
 # TODO: Closing listener with Escape key # done, not tested. window has to be focused on initialization to test it
-# TODO: Support selecting area from right to left
 
 class AreaScreenshoter:
     @staticmethod
@@ -101,9 +100,10 @@ class AreaScreenshoter:
         if self.press_coordinates['detected'] and self.release_coordinates['detected']:
             x1, y1 = self.press_coordinates['x'], self.press_coordinates['y']
             x2, y2 = self.release_coordinates['x'], self.release_coordinates['y']
+
             print("Taking screenshot of: ", x1, y1, x2, y2)
             try:
-                selected_area_screenshot = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+                selected_area_screenshot = ImageGrab.grab(bbox=(min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)))
             except Exception as ex:
                 print(ex)
         else:
