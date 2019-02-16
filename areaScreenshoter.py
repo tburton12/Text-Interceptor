@@ -11,8 +11,7 @@ else:
     from tkinter import *
 
 
-# TODO: fix right click on opened window
-# TODO: Escape shot close listener as well
+# TODO: Closing listener with Escape key # done, not tested. window has to be focused on initialization to test it
 
 class AreaScreenshoter:
     @staticmethod
@@ -52,6 +51,7 @@ class AreaScreenshoter:
         def on_mouse_click(x, y, button, pressed):
             nonlocal press_coordinates
             nonlocal release_coordinates
+
             # If button were pressed
             if button == MouseButton.left:
                 if pressed:
@@ -72,8 +72,8 @@ class AreaScreenshoter:
                 return False
 
         # initialize local coordinates containers
-        press_coordinates = {}
-        release_coordinates = {}
+        press_coordinates = {'detected': False}
+        release_coordinates = {'detected': False}
 
         # Selected area coordinates getter
         print("Selecting area")
@@ -95,12 +95,17 @@ class AreaScreenshoter:
 
     def take_screenshot_of_area(self):
         # Take screenshot of area
-        x1, y1 = self.press_coordinates['x'], self.press_coordinates['y']
-        x2, y2 = self.release_coordinates['x'], self.release_coordinates['y']
-        print("Taking screenshot of: ", x1, y1, x2, y2)
-        selected_area_screenshot = ImageGrab.grab(bbox=(x1, y1, x2, y2))
-        selected_area_screenshot.save("selected_area.png")
-        pass
+        if self.press_coordinates['detected'] and self.release_coordinates['detected']:
+            x1, y1 = self.press_coordinates['x'], self.press_coordinates['y']
+            x2, y2 = self.release_coordinates['x'], self.release_coordinates['y']
+            print("Taking screenshot of: ", x1, y1, x2, y2)
+            try:
+                selected_area_screenshot = ImageGrab.grab(bbox=(x1, y1, x2, y2))
+                selected_area_screenshot.save("selected_area.png")
+            except Exception as ex:
+                print(ex)
+        else:
+            print("Cannot take a screenshot without coordinates")
 
     def __init__(self):
         # Create window
