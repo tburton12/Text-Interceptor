@@ -10,9 +10,15 @@ if sys.version_info[0] == 2:  # Just checking your Python version to import Tkin
 else:
     from tkinter import *
 
+
 class AreaScreenshoter:
     @staticmethod
     def run_window(img):
+        """
+        Create fullscreen window and print image given in param
+        :param img: Image to be printed in window
+        :return:
+        """
         # Create window root
         root = Tk()
         w = Label(root)
@@ -32,7 +38,7 @@ class AreaScreenshoter:
         w.pack()
         root.mainloop()
 
-    def open_window(self, background_image):
+    def start_window_process(self, background_image):
         self.window_process = Process(target=self.run_window, args=(background_image,))
         self.window_process.daemon = True
         self.window_process.start()
@@ -44,8 +50,11 @@ class AreaScreenshoter:
     def is_window_opened(self):
         return self.window_process.is_alive()
 
-    # Attaches a mouse listener to get select area and returns coordinates
     def select_area(self):
+        """
+        Attach mouse listener to select area
+        :return: Coordinates of selected area or False if selecting were interrupted
+        """
         def on_mouse_click(x, y, button, pressed):
             nonlocal press_coordinates
             nonlocal release_coordinates
@@ -61,7 +70,7 @@ class AreaScreenshoter:
                     release_coordinates = {'detected': True, 'button': button, 'event': 'released', 'x': x, 'y': y}
                     # Stop listening on button release
                     return False
-            # Cancel snapping if mouse right button clicked
+            # Cancel snapping if right mouse button clicked
             elif button == MouseButton.right:
                 print("Right button pressed - listening canceled")
                 press_coordinates = {'detected': False}
@@ -69,21 +78,21 @@ class AreaScreenshoter:
                 # Stop listening
                 return False
 
-        # initialize local coordinates containers
+        # Initialize local coordinates containers
         press_coordinates = {'detected': False}
         release_coordinates = {'detected': False}
 
-        # Selected area coordinates getter
+        # Get coordinates of selected area
         print("Selecting area")
         with MouseListener(
                 on_click=on_mouse_click) as listener:
             listener.join()
 
-        # assign coordinates to object variables
+        # Assign coordinates to objects variables
         self.press_coordinates = press_coordinates
         self.release_coordinates = release_coordinates
 
-        # if snapping has not been cancelled
+        # Print detected area coordinates
         if press_coordinates['detected'] and release_coordinates['detected']:
             try:
                 print("Press: ", press_coordinates['x'], press_coordinates['y'])
@@ -93,6 +102,11 @@ class AreaScreenshoter:
 
     def take_screenshot_of_area(self):
         # Take screenshot of area
+        """
+        Take screenshot of previously selected area.
+        Coordinates are specified in object variables
+        :return: Screenshot of selected area or None if could not take screenshot
+        """
         selected_area_screenshot = None
 
         if self.press_coordinates['detected'] and self.release_coordinates['detected']:
@@ -110,12 +124,11 @@ class AreaScreenshoter:
         return selected_area_screenshot
 
     def __init__(self):
-        # Create window
-
-        # Coordinates of mouse press and release. It stands for coordinates of selected rectange area.
+        # Coordinates of mouse press and release. It stands for coordinates of selected rectangle area.
         self.press_coordinates = {}
         self.release_coordinates = {}
 
+        # Initialize variable to store screenshoter window process
         self.window_process = Process()
 
 

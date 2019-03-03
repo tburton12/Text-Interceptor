@@ -4,8 +4,14 @@ import os.path
 
 
 class Settings:
+    """
+    Program settings such as assigned keys
+    """
     @staticmethod
     def __generate_config_file():
+        """
+        Generate new conf file with default settings
+        """
         print("Creating conf.ini")
         config_file = open("conf.ini", "w")
         try:
@@ -19,6 +25,10 @@ class Settings:
             config_file.close()
 
     def __init__(self):
+        """
+        Read configuration from conf file
+        If cannot find conf file it generates new one with default settings
+        """
         self.names = {'Program name': 'Text interceptor'}
 
         # Generate conf file if it is not existing
@@ -28,6 +38,7 @@ class Settings:
         self.conf = configparser.ConfigParser()
         self.conf.read("conf.ini")
 
+        # Try to get assigned capture action key
         try:
             self.capture_action_key = self.conf.get('Control', 'Capture Key')
         except Exception as ex:

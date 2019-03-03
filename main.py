@@ -7,7 +7,7 @@ from multiprocessing import freeze_support
 if __name__ == '__main__':
     freeze_support()
 
-    # Create program handler
+    # Attach keyboard listener to make program works parallel
     listener = Thread(target=attach_listener)
     listener.setDaemon(True)
     listener.start()

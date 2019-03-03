@@ -14,12 +14,11 @@ import pyperclip
 
 
 def copy_text_from_screen():
-
     # Take screenshot of current display
     display_screenshot = ImageGrab.grab()
 
     # Create and open window which print screenshot on fullscreen
-    screenshoter_window.open_window(display_screenshot)
+    screenshoter_window.start_window_process(display_screenshot)
 
     screenshoter_window.select_area()
 
@@ -29,9 +28,12 @@ def copy_text_from_screen():
 
     screenshoter_window.close_window()
 
+    # Get and copy text from screen
     if area_screenshot is not None:
+        # Detect text from screenshot
         detected_text = pytesseract.image_to_string(area_screenshot)
         print("Detected text: ", detected_text)
+        # Copy detected text o clipboard
         pyperclip.copy(detected_text)
 
 

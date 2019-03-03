@@ -7,15 +7,17 @@ from settings import program_settings
 class TrayIcon:
     @staticmethod
     def capture_text():
+        """
+        Activate text capturer
+        Used for manual event activation
+        """
         print("Capture text")
         copy_text_from_screen()
-        pass
 
     def exit_program(self):
         self.icon.stop()
         print("Exiting")
         self.running = False
-        pass
 
     def __setup(self):
         self.visible = True
@@ -55,6 +57,10 @@ class TrayIcon:
 
 
 def generate_icon(width=16, height=16, color1=20, color2=400):
+    """
+    Generate simple icon
+    :return: Generated image
+    """
     # Generate an image
     image = Image.new('RGB', (width, height), color1)
     dc = ImageDraw.Draw(image)
