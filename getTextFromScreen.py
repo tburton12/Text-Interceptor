@@ -1,8 +1,10 @@
 from pynput.keyboard import Listener as KeyboardListener
 from settings import program_settings
 from areaScreenshoter import screenshoter_window
+import pyperclip
+from PIL import Image as PILImage
 import pytesseract
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
 
 # Prevent from incorrect cropping of screenshots on high-DPI displays.
 # It has to be called before pyscreenhot is imported
@@ -10,7 +12,6 @@ from ctypes import windll
 user32 = windll.user32
 user32.SetProcessDPIAware()
 import pyscreenshot as ImageGrab
-import pyperclip
 
 
 def copy_text_from_screen():
