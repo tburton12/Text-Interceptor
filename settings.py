@@ -29,7 +29,7 @@ class Settings:
         Read configuration from conf file
         If cannot find conf file it generates new one with default settings
         """
-        self.names = {'Program name': 'Text interceptor'}
+        self.names = {'Program name': 'Text Interceptor'}
 
         # Generate conf file if it is not existing
         if os.path.isfile("conf.ini") is not True:

@@ -1,6 +1,6 @@
 import pystray
 from PIL import Image, ImageDraw
-from getTextFromScreen import copy_text_from_screen
+from textInterceptor import copy_text_from_screen
 from settings import program_settings
 
 
@@ -8,7 +8,7 @@ class TrayIcon:
     @staticmethod
     def capture_text():
         """
-        Activate text capturer
+        Activate text interceptor
         Used for manual event activation
         """
         print("Capture text")
@@ -27,7 +27,7 @@ class TrayIcon:
         self.icon.run()
         self.running = True
 
-    def __init__(self, title='Python'):
+    def __init__(self, title=program_settings.names['Program name']):
         self.running = False
         self.visible = False
 
