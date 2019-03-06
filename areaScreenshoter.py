@@ -17,6 +17,7 @@ class AreaScreenshoter:
         """
         Create fullscreen window and print image given in param
         :param img: Image to be printed in window
+        :return:
         """
         # Create window root
         root = Tk()
